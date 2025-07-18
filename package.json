@@ -1,54 +1,31 @@
 {
-  "name": "fhevm-react-template",
-  "version": "2.0.0",
-  "description": "Universal FHEVM SDK - Framework-agnostic SDK for building confidential frontends with Zama FHE",
-  "private": true,
-  "workspaces": [
-    "packages/*",
-    "examples/*"
-  ],
+  "name": "privacy-compliance-auditor",
+  "version": "1.0.0",
+  "description": "Confidential compliance checking system using Zama FHE for privacy regulation auditing",
+  "main": "index.js",
   "scripts": {
-    "install:all": "npm install && npm run install:sdk && npm run install:examples",
-    "install:sdk": "cd packages/fhevm-sdk && npm install",
-    "install:examples": "npm run install:nextjs && npm run install:hardhat",
-    "install:nextjs": "cd examples/nextjs-compliance-auditor && npm install",
-    "install:hardhat": "cd examples/privacy-auditor-hardhat && npm install",
-    "build": "npm run build:sdk",
-    "build:sdk": "cd packages/fhevm-sdk && npm run build",
-    "dev:nextjs": "cd examples/nextjs-compliance-auditor && npm run dev",
-    "dev:hardhat": "cd examples/privacy-auditor-hardhat && npm run node",
-    "compile:contracts": "cd examples/privacy-auditor-hardhat && npm run compile",
-    "deploy:contracts": "cd examples/privacy-auditor-hardhat && npm run deploy",
-    "test": "npm run test:sdk && npm run test:hardhat",
-    "test:sdk": "cd packages/fhevm-sdk && npm test",
-    "test:hardhat": "cd examples/privacy-auditor-hardhat && npm test",
-    "clean": "rm -rf node_modules packages/*/node_modules examples/*/node_modules",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "lint": "eslint \"**/*.{js,jsx,ts,tsx}\""
+    "compile": "npx hardhat compile",
+    "deploy": "npx hardhat run scripts/deploy.js --network sepolia",
+    "test": "npx hardhat test",
+    "node": "npx hardhat node"
   },
   "keywords": [
-    "fhevm",
     "fhe",
-    "zama",
-    "sdk",
     "privacy",
-    "encryption",
-    "web3",
+    "compliance",
+    "audit",
+    "gdpr",
     "blockchain",
-    "confidential",
-    "react",
-    "nextjs",
-    "vue",
-    "framework-agnostic"
+    "zama"
   ],
-  "author": "FHEVM SDK Team",
+  "author": "Privacy Compliance Team",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zama-ai/fhevm-react-template"
-  },
   "devDependencies": {
-    "prettier": "^3.1.0",
-    "eslint": "^8.50.0"
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.0"
+  },
+  "dependencies": {
+    "@fhevm/solidity": "^0.5.0",
+    "dotenv": "^16.3.1"
   }
 }
