@@ -5,6 +5,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Hardhat](https://img.shields.io/badge/Built%20with-Hardhat-yellow)](https://hardhat.org/)
 [![Solidity](https://img.shields.io/badge/Solidity-^0.8.24-blue)](https://soliditylang.org/)
+[![React](https://img.shields.io/badge/React-18.2.0-blue)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3.0-blue)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.0.0-purple)](https://vitejs.dev/)
 [![Tests](https://img.shields.io/badge/Tests-45%20cases-green)](./TESTING.md)
 [![FHE](https://img.shields.io/badge/Powered%20by-Zama%20FHE-blueviolet)](https://docs.zama.ai/)
 
@@ -12,13 +15,16 @@ A decentralized compliance auditing platform that enables **confidential complia
 
 ## 🌐 Live Demo
 
-**🚀 Application**: [https://fhe-compliance-auditor.vercel.app/](https://fhe-compliance-auditor.vercel.app/)
+**🚀 React Application**: Modern React + Vite frontend with FHEVM SDK integration
+**🚀 Legacy Application**: [https://fhe-compliance-auditor.vercel.app/](https://fhe-compliance-auditor.vercel.app/)
 
 **📄 Smart Contract**: [`0xf7f80e8BE9823E5D8df70960cECd7f7A24266098`](https://sepolia.etherscan.io/address/0xf7f80e8BE9823E5D8df70960cECd7f7A24266098) (Sepolia)
 
 **📂 GitHub Repository**: [https://github.com/ConsueloBrekke/FHEComplianceAuditor](https://github.com/ConsueloBrekke/FHEComplianceAuditor)
 
 **🎥 Demo Video**: `demo.mp4` - Download the video file to watch the demonstration
+
+**✨ New**: React application now includes TypeScript, custom hooks, and modern component architecture!
 
 ---
 
@@ -282,6 +288,54 @@ enum RiskLevel {
 }
 ```
 
+### React Frontend Architecture
+
+The React application provides a modern, type-safe interface for interacting with the FHE contract:
+
+#### Component Structure
+
+```typescript
+// Custom Hooks
+useFHE()            // Initialize FHEVM client
+useEncryption()     // Handle data encryption operations
+
+// Components
+<Header />          // Wallet connection & status
+<FeaturesGrid />    // Feature showcase
+<ComplianceStandards /> // Supported standards display
+<ComplianceForm />  // Main interaction form with SDK integration
+```
+
+#### FHE Integration Flow
+
+```typescript
+// 1. Initialize FHE Client
+const { client, isReady } = useFHE({
+  provider: window.ethereum,
+  network: 'sepolia'
+});
+
+// 2. Encrypt Data
+const { encrypt } = useEncryption(client);
+const encrypted = await encrypt(contractAddress, {
+  values: [1000, 30, 85],
+  types: ['uint32', 'uint8', 'uint8']
+});
+
+// 3. Submit to Contract
+await contract.registerData(
+  ...encrypted.handles,
+  encrypted.inputProof
+);
+```
+
+**Benefits:**
+- ✅ Type-safe FHE operations with TypeScript
+- ✅ Reusable hooks for common FHE patterns
+- ✅ Component-based architecture for maintainability
+- ✅ Real-time client-side encryption
+- ✅ Modern development with Vite hot-reload
+
 ---
 
 ## 🚀 Quick Start
@@ -356,6 +410,33 @@ npm run verify
 # Interact with contract
 npm run interact
 ```
+
+### Run React Application
+
+```bash
+# Navigate to React app directory
+cd PrivacyComplianceAuditor
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+# Application runs at http://localhost:3001
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+**React App Features:**
+- 🔐 Wallet connection with MetaMask
+- 📊 Interactive compliance form
+- 🔒 Client-side FHE encryption
+- ⚡ Real-time data encryption/submission
+- 📱 Responsive design for all devices
 
 ---
 
@@ -509,11 +590,32 @@ const isCertified = await contract.getCertificationStatus(address, standard);
 | **Hardhat** | ^2.19.0 | Development environment |
 | **Ethers.js** | ^6.x | Blockchain interaction |
 
-### Frontend (Included)
+### Frontend Applications
+
+#### React Application (PrivacyComplianceAuditor/)
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **React** | ^18.2.0 | UI framework |
+| **TypeScript** | ^5.3.0 | Type-safe development |
+| **Vite** | ^5.0.0 | Fast build tool & dev server |
+| **@fhevm-sdk/core** | Latest | FHE SDK for React integration |
+| **Ethers.js** | ^6.9.0 | Blockchain interaction |
+| **fhevmjs** | ^0.5.0 | Homomorphic encryption library |
+
+**Features:**
+- Modern React 18 with hooks (useFHE, useEncryption)
+- TypeScript for type safety
+- Vite for fast development experience
+- Component-based architecture
+- SDK-integrated FHE operations
+- Responsive design with modern CSS
+
+#### Legacy Frontend (public/)
 
 | Technology | Purpose |
 |------------|---------|
-| **HTML/CSS/JS** | User interface |
+| **HTML/CSS/JS** | Static user interface |
 | **MetaMask** | Wallet integration |
 | **Ethers.js** | Contract interaction |
 
@@ -616,7 +718,25 @@ privacy-compliance-auditor/
 ├── test/
 │   └── PrivacyComplianceAuditor.test.js  # 45 test cases
 │
-├── public/                             # Frontend files
+├── PrivacyComplianceAuditor/           # React Application (NEW)
+│   ├── src/
+│   │   ├── components/                 # React components
+│   │   │   ├── Header.tsx
+│   │   │   ├── FeaturesGrid.tsx
+│   │   │   ├── ComplianceStandards.tsx
+│   │   │   └── ComplianceForm.tsx
+│   │   ├── hooks/                      # Custom React hooks
+│   │   │   ├── useFHE.ts
+│   │   │   └── useEncryption.ts
+│   │   ├── lib/                        # Utility libraries
+│   │   ├── App.tsx                     # Main app component
+│   │   ├── main.tsx                    # Entry point
+│   │   └── styles.css                  # Global styles
+│   ├── vite.config.ts                  # Vite configuration
+│   ├── tsconfig.json                   # TypeScript config
+│   └── package.json                    # React app dependencies
+│
+├── public/                             # Legacy Frontend (Static)
 │   ├── index.html
 │   ├── app.js
 │   └── vercel.json
